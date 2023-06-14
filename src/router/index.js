@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import JournalEntriesList from '../components/JournalEntriesList.vue'
-import HelloWorld from '../components/HelloWorld.vue'
+import EntryView from '../components/EntryView.vue'
+import NewEntryView from '../components/NewEntryView.vue'
 
 const routes = [
     {
@@ -9,9 +10,15 @@ const routes = [
         component: JournalEntriesList
     },  
     {
-        path: '/hello',
-        name: 'Hello',
-        component: HelloWorld
+        path: '/entry/:title',
+        name: 'Entry',
+        component: EntryView,
+        props: true
+    }, 
+    {
+        path:'/entry/new',
+        name: 'New',
+        component: NewEntryView,
     }
 ]
 

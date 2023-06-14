@@ -1,21 +1,29 @@
 <template>
+    <HeaderComponent />
     <div :class="entryListContainer">
         <ul v-for="entry in entries" :key="entry.id">
-            <li>{{entry.title}}</li>
+            <li><router-link :class="entryLinkClass" :to="'/entry/' + entry.title">{{entry.title}}</router-link></li>
         </ul>
     </div>
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import HeaderComponent from './HeaderComponent.vue'
+import {ref, onMounted} from 'vue'
+import axios from 'axios'
 
+//classes
 const entryListContainer = ref('entry-list-container')
+const entryLinkClass = ref('entry-link')
 
 const entries = ref([
-    {id: 0, title: 'First entry', text: 'Content goes here', date: (new Date()).getDate()},
-    {id: 1, title: 'Another entry', text: 'Content goes here', date: (new Date()).getDate()}
 ])
 
+onMounted(async () => {
+    const response = await axios.get(`http://localhost:8081/api/entry/get/all`);
+    console.log(response.data)
+    entries.value = response.data
+})
 
 </script>
 
@@ -34,8 +42,14 @@ const entries = ref([
 }
 .entry-list-container li {
     border: 1px solid;
-    font-size: 2vw;
+    font-size: 1.5vw;
     padding: 5px;
+}
+
+.entry-link {
+    color: #393957;
+    font-weight: 800;
+    text-decoration: none;
 }
 
 </style>
